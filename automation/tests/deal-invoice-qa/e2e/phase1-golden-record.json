@@ -1,0 +1,13 @@
+{
+  "companyId": "421017391343",
+  "contactId": "733936289009",
+  "company": {
+    "status": "Aktiv",
+    "name": "Beispiel GmbH e2e-1773212869771-qjtlqg",
+    "country": "Germany"
+  },
+  "contact": {
+    "lifecycle_stage": null,
+    "email": "mk+e2e-1773212869771-qjtlqg@x.co"
+  }
+}

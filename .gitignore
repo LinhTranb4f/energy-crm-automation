@@ -1,0 +1,5 @@
+node_modules/
+.env
+automation/.env
+.clickup_downloads/
+.DS_Store

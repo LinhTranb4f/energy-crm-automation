@@ -1,0 +1,49 @@
+{
+  "runAt": "2026-03-11T07:08:22.713Z",
+  "uniqueSuffix": "e2e-1773212869771-qjtlqg",
+  "environment": "production",
+  "companyId": "421017391343",
+  "contactId": "733936289009",
+  "company": {
+    "id": "421017391343",
+    "address": "Hauptstraße 42",
+    "city": "Berlin",
+    "company_code": "1000",
+    "company_number": "DE123456789",
+    "country": "Germany",
+    "createdate": "2026-03-11T07:07:55.850Z",
+    "customer_account_group": "1000",
+    "e_mail": "info@example.com",
+    "hs_lastmodifieddate": "2026-03-11T07:08:15.798Z",
+    "hs_object_id": "421017391343",
+    "industry": "MARKETING_AND_ADVERTISING",
+    "name": "Beispiel GmbH e2e-1773212869771-qjtlqg",
+    "original_country": "DE",
+    "phone": "+493012345678",
+    "status": "Aktiv",
+    "website": "https://www.example.com",
+    "zip": "10115"
+  },
+  "contact": {
+    "id": "733936289009",
+    "createdate": "2026-03-11T07:08:16.824Z",
+    "email": "mk+e2e-1773212869771-qjtlqg@x.co",
+    "firstname": "Max",
+    "hs_object_id": "733936289009",
+    "lastmodifieddate": "2026-03-11T07:08:17.312Z",
+    "lastname": "Ko e2e-1773212869771-qjtlqg"
+  },
+  "goldenRecord": {
+    "companyId": "421017391343",
+    "contactId": "733936289009",
+    "company": {
+      "status": "Aktiv",
+      "name": "Beispiel GmbH e2e-1773212869771-qjtlqg",
+      "country": "Germany"
+    },
+    "contact": {
+      "lifecycle_stage": null,
+      "email": "mk+e2e-1773212869771-qjtlqg@x.co"
+    }
+  }
+}
