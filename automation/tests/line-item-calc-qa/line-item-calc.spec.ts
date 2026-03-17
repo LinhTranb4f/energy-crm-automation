@@ -1,11 +1,12 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type APIRequestContext } from "@playwright/test";
+import { createBaseRequest } from "../../client/baseRequest";
 import {
-  getLineItemProperties,
-  resolveLineItemIds,
-  isLineItemInOrderPipeline,
-} from "./hubspot-client";
-import { resolveProductType } from "./hubdb-tables";
-import { calculate, type CalculationResult } from "./calculators";
+  getLineItemPropertiesAction,
+  resolveLineItemIdsAction,
+  isLineItemInOrderPipelineAction,
+} from "../../actions";
+import { resolveProductType } from "../../line-item/hubdb-tables";
+import { calculate, type CalculationResult } from "../../line-item/calculators";
 
 // ---------------------------------------------------------------------------
 // Resolve line item IDs: DEAL_ID > LINE_ITEM_IDS > demo fallback
@@ -18,10 +19,11 @@ const DEMO_IDS = [
   "434866761963", // Radio Sponsoring
 ];
 
-async function getLineItemIds(): Promise<string[]> {
+async function getLineItemIds(request: APIRequestContext): Promise<string[]> {
   if (process.env.DEAL_ID) {
     console.log(`Resolving line items from Deal ${process.env.DEAL_ID}…`);
-    return resolveLineItemIds(process.env.DEAL_ID);
+    const req = createBaseRequest(request);
+    return resolveLineItemIdsAction(req, process.env.DEAL_ID);
   }
   if (process.env.LINE_ITEM_IDS) {
     return process.env.LINE_ITEM_IDS.split(",").map((s) => s.trim());
@@ -38,21 +40,25 @@ let resolvedIds: string[] | null = null;
 // ---------------------------------------------------------------------------
 
 test.describe("Line Item Calculation QA", () => {
-  test.beforeAll(async () => {
-    resolvedIds = await getLineItemIds();
-    console.log(`Testing ${resolvedIds.length} line item(s): ${resolvedIds.join(", ")}`);
+  test.beforeAll(async ({ request }) => {
+    resolvedIds = await getLineItemIds(request);
+    console.log(
+      `Testing ${resolvedIds.length} line item(s): ${resolvedIds.join(", ")}`,
+    );
   });
 
-  test("all line items pass calculation checks", async () => {
+  test("all line items pass calculation checks", async ({ request }) => {
     expect(resolvedIds).not.toBeNull();
     const ids = resolvedIds!;
     expect(ids.length).toBeGreaterThan(0);
 
     const failures: string[] = [];
 
+    const req = createBaseRequest(request);
+
     for (const lineItemId of ids) {
       console.log(`\n── Line Item ${lineItemId} ──`);
-      const props = await getLineItemProperties(lineItemId);
+      const props = await getLineItemPropertiesAction(req, lineItemId);
       const name = props.name ?? "(unknown)";
       console.log(`  Name: ${name}`);
 
@@ -75,7 +81,7 @@ test.describe("Line Item Calculation QA", () => {
 
       const skipQuantityForOrderPipeline =
         productType === "radioSpots" &&
-        (await isLineItemInOrderPipeline(lineItemId));
+        (await isLineItemInOrderPipelineAction(req, lineItemId));
       if (skipQuantityForOrderPipeline) {
         console.log("  (Deal in Order-Pipeline: skipping quantity assertion for Radio Spots)");
       }

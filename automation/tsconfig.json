@@ -10,7 +10,13 @@
     "rootDir": ".",
     "resolveJsonModule": true
   },
-  "include": ["tests/**/*.ts"],
+  "include": [
+    "tests/**/*.ts",
+    "client/**/*.ts",
+    "actions/**/*.ts",
+    "line-item/**/*.ts",
+    "data/**/*.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }
 
